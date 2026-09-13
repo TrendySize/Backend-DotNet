@@ -1,8 +1,16 @@
+using TrendySize.Api.DTOs;
+using TrendySize.Api.Models;
+using TrendySize.Api.Services;
+using TrendySize.Api.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<ITokenService, TokenService>(); //Register Token Service & Interface 
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>(); //Register Email Service & Interface
 
 var app = builder.Build();
 

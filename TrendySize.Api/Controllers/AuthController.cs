@@ -14,13 +14,11 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
     [Route("api/auth")] //Defines the route for the controller, using the controller's name as a placeholder
     public class AuthController : ControllerBase //Inherits ControllerBase to handle HTTP requests and responses
     {
-        private readonly UserManager<ApplicationUser> _userManager; //Manages user-related operations, such as creating and retrieving users    
-        private readonly ITokenService _tokenService; //Handles token generation and validation for authentication
+        private readonly IAuthService _authService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, ITokenService tokenService)
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager; //Initializes the UserManager instance
-            _tokenService = tokenService; //Initializes the ITokenService instance
+            _authService = authService; //Initializes the AuthController instance
         }
 
         [HttpPost("signup")]
@@ -31,30 +29,16 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
                 return BadRequest(ModelState);
             }
 
-            var existingUser = await _userManager.FindByEmailAsync(request.Email);
-            if (existingUser != null)
-            {
-                return Conflict(new { message = "Email is already in use." });
-            }
-
-            var user = new ApplicationUser
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                PhoneNumber = request.PhoneNumber,
-                UserName = request.Email
-            };
-
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var result = await _authService.SignupAsync(request);
 
             if (!result.Succeeded)
             {
+                if (result.ErrorMessage != null)
+                {
+                    return Conflict(new { message = result.ErrorMessage });
+                }
                 return BadRequest(result.Errors);
             }
-
-            // No token here — email isn't confirmed yet, so no access should be granted.
-            // Email confirmation token generation + sending is the next piece we build.
             return Ok(new { message = "Signup successful. Please check your email to confirm your account." });
         }
     }
