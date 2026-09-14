@@ -14,6 +14,8 @@ namespace TrendySize.Api.Services
     public interface IAuthService
     {
         Task<AuthResult> SignupAsync(SignupRequest request);
+        Task<AuthResult> ConfirmEmailAsync(ConfirmEmailRequest request);
+        Task<LoginResult> LoginAsync(LoginRequest request);
     }
     
 }

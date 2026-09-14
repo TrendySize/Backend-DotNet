@@ -21,6 +21,7 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
             _authService = authService; //Initializes the AuthController instance
         }
 
+        //To signup a new user
         [HttpPost("signup")]
         public async Task<IActionResult> Signup(SignupRequest request)
         {
@@ -40,6 +41,28 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
                 return BadRequest(result.Errors);
             }
             return Ok(new { message = "Signup successful. Please check your email to confirm your account." });
+        }
+
+        //To Confirm email address of a user
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.ConfirmEmailAsync(request);
+
+            if (!result.Succeeded)
+            {
+                if (result.ErrorMessage != null)
+                {
+                    return NotFound(new { message = result.ErrorMessage });
+                }
+                return BadRequest(result.Errors);
+            }
+            return Ok(new { message = "Email confirmed successfully." });
         }
     }
 }
