@@ -2,6 +2,7 @@ using TrendySize.Api.DTOs;
 using TrendySize.Api.Models;
 using TrendySize.Api.Services;
 using TrendySize.Api.Controllers;
+using Resend;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<ITokenService, TokenService>(); //Register Token Service & Interface 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>(); //Register Email Service & Interface
+builder.Services.AddResend(options =>
+{
+    options.ApiToken = Environment.GetEnvironmentVariable("RESEND_APITOKEN")!;
+}); //Register Resend Email Service with API Token from Environment Variable
 
 var app = builder.Build();
 

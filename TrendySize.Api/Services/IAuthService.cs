@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 
 namespace TrendySize.Api.Services
-{
+{   
+    // The IAuthService interface defines the contract for authentication-related operations, specifically user signup.
     public interface IAuthService
     {
         Task<AuthResult> SignupAsync(SignupRequest request);
