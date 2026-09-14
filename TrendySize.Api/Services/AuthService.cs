@@ -13,12 +13,14 @@ namespace TrendySize.Api.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
         //Instance of UserManager is injected into the AuthService class through its constructor. 
         //This allows the AuthService to use the UserManager to manage user accounts, 
         //such as creating new users and checking for existing users.
-        public AuthService(UserManager<ApplicationUser> userManager)
+        public AuthService(UserManager<ApplicationUser> userManager, IEmailService emailService)
         {
             _userManager = userManager;
+            _emailService = emailService;
         }
         //Create a new user account based on the information provided in the SignupRequest object.
         public async Task<AuthResult> SignupAsync(SignupRequest request)
@@ -54,6 +56,14 @@ namespace TrendySize.Api.Services
                     Errors = result.Errors.Select(e => e.Description)
                 };
             }
+
+            //Generate an email confirmation token for the newly created user.
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = Uri.EscapeDataString(token); //Encodes the token to ensure it can be safely included in a URL.
+            var confirmationLink = $"https://localhost:3000/confirm-email?userId={user.Id}&token={encodedToken}";
+
+            //use the emailservice interface  method to send the verification link
+            await _emailService.SendEmailVerificationAsync(user.Email, user.FirstName,  confirmationLink);
 
             return new AuthResult { Succeeded = true };
         }
