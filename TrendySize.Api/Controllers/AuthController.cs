@@ -64,5 +64,24 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
             }
             return Ok(new { message = "Email confirmed successfully." });
         }
+
+        //To build Login endpoint for user
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            //check if the model state is valid, if not return a bad request with the model state errors
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.LoginAsync(request);
+            //check if the login attempt was successful, if not return an unauthorized response with the error message
+            if (!result.Succeeded)
+            {
+                return Unauthorized(new { message = result.ErrorMessage });
+            }
+            return Ok(new { token = result.Token });
+        }
     }
 }

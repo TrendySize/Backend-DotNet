@@ -63,7 +63,7 @@ namespace TrendySize.Api.Services
             //Generate an email confirmation token for the newly created user.
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = Uri.EscapeDataString(token); //Encodes the token to ensure it can be safely included in a URL.
-            var confirmationLink = $"https://localhost:3000/confirm-email?userId={user.Id}&token={encodedToken}";
+            var confirmationLink = $"https://localhost:3000/confirm-email?userId={user.Id}&token={encodedToken}"; //Test link for email confirmation. In a production environment, this link would point to the actual frontend application where the user can confirm their email.
 
             //use the emailservice interface  method to send the verification link
             await _emailService.SendEmailVerificationAsync(user.Email, user.FirstName,  confirmationLink);
