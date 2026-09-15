@@ -1,6 +1,31 @@
-@TrendySize.Api_HostAddress = http://localhost:5128
+@baseUrl = http://localhost:5128
 
-GET {{TrendySize.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Signup
+POST {{baseUrl}}/api/auth/signup
+Content-Type: application/json
 
-###
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "fehintolusamuel@gmail.com",
+  "password": "Password123!",
+  "phoneNumber": "+2348012345678"
+}
+
+### Confirm Email
+POST {{baseUrl}}/api/auth/confirm-email
+Content-Type: application/json
+
+{
+  "userId": "01a0a489-23af-7e6f-90b9-baae0b9381a9",
+  "token": "CfDJ8CeWQk9+vF9ArMrMNnNA2lLjw8WTrIEkeZ7IxJHw3EVaUxN+jGb4dKsXj6ORxsH0WveIqT4d/QabDGsST/+DEecH3JjnbxSpp0G8t749P/fOiMoCotqOQV0hma40rw8kFVA/s0VFYri4mQTF3b5jRI2TtE9F2WkdugPkNMjVMlEu87oiWQq3zDNg44I355mqfyaudnsSNclWzhA92mfIhccBcsbhYK6PRIenL2nh3S1nsuJvr36c3A04BLnKCnrPFg=="
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "fehintolusamuel@gmail.com",
+  "password": "Password123!"
+}
