@@ -10,7 +10,9 @@ namespace TrendySize.Api.Models
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string? MeasurementLinkToken { get; set; }
+        public bool IsSubscriptionActive { get; set; } = false;
+        public string? WhatsappNumber { get; set; } 
+        public DateTime? SubscriptionExpiresAt { get; set; }        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
