@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization; // for [Authorize] attribute
 using TrendySize.Api.DTOs;
 using Microsoft.AspNetCore.Identity;      // for UserManager
 using TrendySize.Api.Models;              // for ApplicationUser
 using TrendySize.Api.Services;            // for ITokenService
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace TrendySize.Api.Controllers      // literal string — plain, predictable, most common
 {
@@ -15,10 +19,12 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
     public class AuthController : ControllerBase //Inherits ControllerBase to handle HTTP requests and responses
     {
         private readonly IAuthService _authService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, UserManager<ApplicationUser> userManager)
         {
             _authService = authService; //Initializes the AuthController instance
+            _userManager = userManager; //Initializes the UserManager instance
         }
 
         //To signup a new user
@@ -82,6 +88,29 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
                 return Unauthorized(new { message = result.ErrorMessage });
             }
             return Ok(new { token = result.Token });
+        }
+
+        //Building a secured login endpoint for vendors
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            //Assess the user ID from the JWT token claims and retrieve the corresponding user from the database using the UserManager service. If the user is not found, return a NotFound response; otherwise, return the user's profile information in an Ok response.
+            var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var user = await _userManager.FindByIdAsync(userId!);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            //Return the user's profile information in an Ok response, including first name, last name, email, and WhatsApp number.
+            return Ok(new
+            {
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                email = user.Email,
+                whatsappNumber = user.WhatsappNumber
+            });
         }
     }
 }

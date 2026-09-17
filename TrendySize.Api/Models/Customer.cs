@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TrendySize.Api.Models
 {
-    //Creaye a new class called Customer that will be used to store customer information in the database. 
+    //Create a new class called Customer that will be used to store customer information in the database. 
     //This class will have the following properties:
     public class Customer
     {
+        public int Id { get; set; }
         public Guid UserId { get; set; }
         public ApplicationUser User { get; set; } = null!;
         public string FirstName { get; set; } = string.Empty;
