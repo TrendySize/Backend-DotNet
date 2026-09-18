@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:5128
 
 ### Signup
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYTYwOC1mMjIyLTc1NGMtOTA5NC1jZWExNjUxOTY1OWUiLCJlbWFpbCI6ImZlaGludG9sdXNhbXVlbEBnbWFpbC5jb20iLCJleHAiOjE3ODk3NjAzOTMsImlzcyI6IlRyZW5keVNpemVBcGkiLCJhdWQiOiJUcmVuZHlTaXplQ2xpZW50In0.qSfbTOEV5UexRfZI6gDyFyqziLS8jIuuNQGgq1X3D7o
 POST {{baseUrl}}/api/auth/signup
 Content-Type: application/json
 
@@ -27,5 +28,13 @@ Content-Type: application/json
 
 {
   "email": "fehintolusamuel@gmail.com",
-  "password": "Password123!"
+  "password": "S@muel24"
 }
+
+
+### Get Profile
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### Test Endpoint
+GET {{baseUrl}}/api/auth/test

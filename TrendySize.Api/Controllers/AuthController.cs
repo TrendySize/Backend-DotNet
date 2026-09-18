@@ -9,8 +9,15 @@ using Microsoft.AspNetCore.Identity;      // for UserManager
 using TrendySize.Api.Models;              // for ApplicationUser
 using TrendySize.Api.Services;            // for ITokenService
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Security.Claims;
+
 
 namespace TrendySize.Api.Controllers      // literal string — plain, predictable, most common
 {
@@ -89,14 +96,19 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
             }
             return Ok(new { token = result.Token });
         }
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok(new { message = "Test endpoint is working!" });
+        }
 
         //Building a secured login endpoint for vendors
         [HttpGet("me")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetProfile()
         {
             //Assess the user ID from the JWT token claims and retrieve the corresponding user from the database using the UserManager service. If the user is not found, return a NotFound response; otherwise, return the user's profile information in an Ok response.
-            var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId!);
 
             if (user == null)
