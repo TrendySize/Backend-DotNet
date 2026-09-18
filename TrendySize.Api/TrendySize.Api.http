@@ -1,7 +1,6 @@
 @baseUrl = http://localhost:5128
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYjY3OS1iOTY5LTdhODUtYWE2NC1hYzY5NjQzYTdmMjkiLCJlbWFpbCI6ImZlaGludG9sdXNhbXVlbEBnbWFpbC5jb20iLCJleHAiOjE3ODk3ODI2NTEsImlzcyI6IlRyZW5keVNpemVBcGkiLCJhdWQiOiJUcmVuZHlTaXplQ2xpZW50In0.49kh9n0_yv1LrYF95ho7o6TNJLULoTiqwrGCJyiMV1o
 ### Signup
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYTYwOC1mMjIyLTc1NGMtOTA5NC1jZWExNjUxOTY1OWUiLCJlbWFpbCI6ImZlaGludG9sdXNhbXVlbEBnbWFpbC5jb20iLCJleHAiOjE3ODk3NjAzOTMsImlzcyI6IlRyZW5keVNpemVBcGkiLCJhdWQiOiJUcmVuZHlTaXplQ2xpZW50In0.qSfbTOEV5UexRfZI6gDyFyqziLS8jIuuNQGgq1X3D7o
 POST {{baseUrl}}/api/auth/signup
 Content-Type: application/json
 
@@ -18,8 +17,8 @@ POST {{baseUrl}}/api/auth/confirm-email
 Content-Type: application/json
 
 {
-  "userId": "01a0a489-23af-7e6f-90b9-baae0b9381a9",
-  "token": "CfDJ8CeWQk9+vF9ArMrMNnNA2lLjw8WTrIEkeZ7IxJHw3EVaUxN+jGb4dKsXj6ORxsH0WveIqT4d/QabDGsST/+DEecH3JjnbxSpp0G8t749P/fOiMoCotqOQV0hma40rw8kFVA/s0VFYri4mQTF3b5jRI2TtE9F2WkdugPkNMjVMlEu87oiWQq3zDNg44I355mqfyaudnsSNclWzhA92mfIhccBcsbhYK6PRIenL2nh3S1nsuJvr36c3A04BLnKCnrPFg=="
+  "userId": "01a0b679-b969-7a85-aa64-ac69643a7f29",
+  "token": "CfDJ8CeWQk9+vF9ArMrMNnNA2lI2Xsai6nl30I71iogQTifxdlOxrZvjmRdhMJVtktSiVUI92MhHnKeVzxBYE6VXaEoT3QxpU6PE/a/Xv5tUhupxVu7kmOWpbAJ2ZZjdFvNAUHFo6rZnZ3KtAFInysxFVynarVzjzNHwYHfZ0/UHBgO3xkERw+/GnunHNu5BBWCbYP4c9BBUVZHuWx7E3v2FYb7XnWWSdw3BaG6v473EmQoJ3nBsu1BFWOA33InRLt5sLg=="
 }
 
 ### Login
@@ -28,7 +27,7 @@ Content-Type: application/json
 
 {
   "email": "fehintolusamuel@gmail.com",
-  "password": "S@muel24"
+  "password": "Password123!"
 }
 
 
@@ -36,5 +35,30 @@ Content-Type: application/json
 GET {{baseUrl}}/api/auth/me
 Authorization: Bearer {{token}}
 
+### Update Profile
+PUT {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "whatsappNumber": "+2348012345678"
+}
+
 ### Test Endpoint
 GET {{baseUrl}}/api/auth/test
+
+### Test Create Customer Endpoint
+POST  {{baseUrl}}/api/customers
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Test2",
+  "lastName": "User2",
+  "phoneNumber": "+2348012345670",
+  "gender": 0
+}
+
+### Test Get All Customers Endpoint
+GET  {{baseUrl}}/api/customers
+Authorization: Bearer {{token}}

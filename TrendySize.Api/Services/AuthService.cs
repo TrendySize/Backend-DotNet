@@ -46,6 +46,7 @@ namespace TrendySize.Api.Services
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
+                WhatsappNumber = request.whatsappNumber,
                 UserName = request.Email
             };
             //The CreateAsync method of the UserManager is called to create the new user account with the provided password.

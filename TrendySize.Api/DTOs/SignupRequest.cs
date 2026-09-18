@@ -21,6 +21,7 @@ namespace TrendySize.Api.DTOs
         public string? PhoneNumber { get; set; }
         [Required] [MinLength(8)]
         public string Password { get; set; } = string.Empty;
+        public string? whatsappNumber { get; set; }
         
     }
 }

@@ -124,5 +124,44 @@ namespace TrendySize.Api.Controllers      // literal string — plain, predictab
                 whatsappNumber = user.WhatsappNumber
             });
         }
+
+        [HttpPut("me")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateProfile(UpdateProfileRequest request)
+        {
+            // Get userId from claims (same line you already know from GetProfile)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // Find the user with _userManager.FindByIdAsync
+            var user = await _userManager.FindByIdAsync(userId!);
+            // If null, return NotFound()
+            if (user == null)
+            {
+                return NotFound();
+            }
+            // For each of FirstName, LastName, WhatsappNumber: if the request value isn't null, update the user's property
+            if (request.FirstName != null)
+            {
+                user.FirstName = request.FirstName;
+            }
+            if (request.LastName != null)
+            {
+                user.LastName = request.LastName;
+            }
+            if (request.WhatsappNumber != null)
+            {
+                user.WhatsappNumber = request.WhatsappNumber;   
+            }
+            //Save the changes using _userManager.UpdateAsync(user) — a new method you haven't used yet
+            var result = await _userManager.UpdateAsync(user);
+            // Return Ok with a success message
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Profile updated successfully." });
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }
