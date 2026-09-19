@@ -482,4 +482,4 @@ $RECYCLE.BIN/
 *.swp
 
 # appsettings file with secret
-TrendySize.Api/appsettings.Development.json
+appsettings.Development.json

@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:5128
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYjY3OS1iOTY5LTdhODUtYWE2NC1hYzY5NjQzYTdmMjkiLCJlbWFpbCI6ImZlaGludG9sdXNhbXVlbEBnbWFpbC5jb20iLCJleHAiOjE3ODk3ODI2NTEsImlzcyI6IlRyZW5keVNpemVBcGkiLCJhdWQiOiJUcmVuZHlTaXplQ2xpZW50In0.49kh9n0_yv1LrYF95ho7o6TNJLULoTiqwrGCJyiMV1o
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwYjY3OS1iOTY5LTdhODUtYWE2NC1hYzY5NjQzYTdmMjkiLCJlbWFpbCI6ImZlaGludG9sdXNhbXVlbEBnbWFpbC5jb20iLCJleHAiOjE3ODk4MjgwMzYsImlzcyI6IlRyZW5keVNpemVBcGkiLCJhdWQiOiJUcmVuZHlTaXplQ2xpZW50In0.5JRRkOqt2slwZS0MoDX6XmOzWWkd8ha26viX8Yqsh4s
 ### Signup
 POST {{baseUrl}}/api/auth/signup
 Content-Type: application/json
@@ -62,3 +62,17 @@ Content-Type: application/json
 ### Test Get All Customers Endpoint
 GET  {{baseUrl}}/api/customers
 Authorization: Bearer {{token}}
+
+
+### Generate Measurement Link
+POST {{baseUrl}}/api/measurements/generate-link
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "orderReference": "ORD-001"
+}
+
+### WhatsApp Redirect
+GET {{baseUrl}}/api/public/v/fehintolusamuel@gmail.com
